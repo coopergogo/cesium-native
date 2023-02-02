@@ -1408,61 +1408,63 @@ void convertBatchTableToGltfFeatureMetadataExtension(
   featureTable.count = featureCount;
   featureTable.classProperty = "default";
 
-  // Convert each regular property in the batch table
-  for (auto propertyIt = batchTableJson.MemberBegin();
-       propertyIt != batchTableJson.MemberEnd();
-       ++propertyIt) {
-    std::string name = propertyIt->name.GetString();
+  if (batchTableJson.IsObject()) {
+    // Convert each regular property in the batch table
+    for (auto propertyIt = batchTableJson.MemberBegin();
+         propertyIt != batchTableJson.MemberEnd();
+         ++propertyIt) {
+      std::string name = propertyIt->name.GetString();
 
-    // Don't interpret extensions or extras as a property.
-    if (name == "extensions" || name == "extras") {
-      continue;
+      // Don't interpret extensions or extras as a property.
+      if (name == "extensions" || name == "extras") {
+        continue;
+      }
+
+      ClassProperty& classProperty =
+          classDefinition.properties.emplace(name, ClassProperty()).first->second;
+      classProperty.name = name;
+
+      FeatureTableProperty& featureTableProperty =
+          featureTable.properties.emplace(name, FeatureTableProperty())
+          .first->second;
+      const rapidjson::Value& propertyValue = propertyIt->value;
+      if (propertyValue.IsArray()) {
+        updateExtensionWithJsonProperty(
+            gltf,
+            classProperty,
+            featureTable,
+            featureTableProperty,
+            ArrayOfPropertyValues(propertyValue));
+      } else {
+        BinaryProperty& binaryProperty = binaryProperties.emplace_back();
+        updateExtensionWithBinaryProperty(
+            gltf,
+            gltfBufferIndex,
+            gltfBufferOffset,
+            binaryProperty,
+            classProperty,
+            featureTableProperty,
+            result,
+            featureTable,
+            name,
+            propertyValue);
+        gltfBufferOffset += roundUp(binaryProperty.byteLength, 8);
+      }
     }
 
-    ClassProperty& classProperty =
-        classDefinition.properties.emplace(name, ClassProperty()).first->second;
-    classProperty.name = name;
-
-    FeatureTableProperty& featureTableProperty =
-        featureTable.properties.emplace(name, FeatureTableProperty())
-            .first->second;
-    const rapidjson::Value& propertyValue = propertyIt->value;
-    if (propertyValue.IsArray()) {
-      updateExtensionWithJsonProperty(
-          gltf,
-          classProperty,
-          featureTable,
-          featureTableProperty,
-          ArrayOfPropertyValues(propertyValue));
-    } else {
-      BinaryProperty& binaryProperty = binaryProperties.emplace_back();
-      updateExtensionWithBinaryProperty(
-          gltf,
-          gltfBufferIndex,
-          gltfBufferOffset,
-          binaryProperty,
-          classProperty,
-          featureTableProperty,
-          result,
-          featureTable,
-          name,
-          propertyValue);
-      gltfBufferOffset += roundUp(binaryProperty.byteLength, 8);
-    }
-  }
-
-  // Convert 3DTILES_batch_table_hierarchy
-  auto extensionsIt = batchTableJson.FindMember("extensions");
-  if (extensionsIt != batchTableJson.MemberEnd()) {
-    auto bthIt =
-        extensionsIt->value.FindMember("3DTILES_batch_table_hierarchy");
-    if (bthIt != extensionsIt->value.MemberEnd()) {
-      updateExtensionWithBatchTableHierarchy(
-          gltf,
-          classDefinition,
-          featureTable,
-          result,
-          bthIt->value);
+    // Convert 3DTILES_batch_table_hierarchy
+    auto extensionsIt = batchTableJson.FindMember("extensions");
+    if (extensionsIt != batchTableJson.MemberEnd()) {
+      auto bthIt =
+          extensionsIt->value.FindMember("3DTILES_batch_table_hierarchy");
+      if (bthIt != extensionsIt->value.MemberEnd()) {
+        updateExtensionWithBatchTableHierarchy(
+            gltf,
+            classDefinition,
+            featureTable,
+            result,
+            bthIt->value);
+      }
     }
   }
 

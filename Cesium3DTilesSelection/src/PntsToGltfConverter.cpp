@@ -1539,7 +1539,7 @@ void convertPntsContentToGltf(
 
     createGltfFromParsedContent(parsedContent, result);
 
-    if (batchTableJson.HasParseError() || batchTableJson.MemberCount() == 0 ||
+    if (batchTableJson.HasParseError() ||
         parsedContent.dracoMetadataHasErrors) {
       result.errors.merge(parsedContent.errors);
       return;
