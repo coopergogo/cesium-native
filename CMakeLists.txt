@@ -77,6 +77,19 @@ function(target_link_libraries_system target scope)
   endforeach()
 endfunction()
 
+function(target_include_directories_system target scope)
+  set(libs ${ARGN})
+  foreach(lib ${libs})
+    get_target_property(lib_include_dirs ${lib} INTERFACE_INCLUDE_DIRECTORIES)
+
+    if ("${lib_include_dirs}" MATCHES ".*NOTFOUND$")
+        message(FATAL_ERROR "${target}: Cannot use INTERFACE_INCLUDE_DIRECTORIES from target ${lib} as it does not define it")
+    endif()
+
+    target_include_directories(${target} SYSTEM ${scope} ${lib_include_dirs})
+  endforeach()
+endfunction()
+
 # Shared object support is currently NOT working on Windows
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
@@ -116,6 +129,7 @@ function(configure_cesium_library targetName)
             PRIVATE
                 ${capitalizedTargetName}_BUILDING
         )
+        install(TARGETS ${targetName} EXPORT CesiumExports)
     endif()
 
     if (CESIUM_EXTRA_INCLUDES)
@@ -186,7 +200,9 @@ install(TARGETS httplib)
 install(TARGETS csprng)
 
 install(TARGETS GSL)
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/GSL/include/gsl TYPE INCLUDE)
+if(NOT ${GSL_INSTALL})
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/GSL/include/gsl TYPE INCLUDE)
+endif()
 
 # ktx_read's PUBLIC_HEADER has paths relative to its own directory, so the install line below will fail.
 # We could fix that, but we don't need the KTX public headers installed anyway (they should be considered
@@ -198,7 +214,7 @@ install(TARGETS webpdecoder)
 
 install(DIRECTORY $<TARGET_LINKER_FILE:turbojpeg> TYPE LIB)
 
-install(DIRECTORY $<TARGET_LINKER_FILE:zlibstatic> TYPE LIB)
+install(TARGETS zlibstatic)
 
 install(DIRECTORY ${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}/rapidjson TYPE INCLUDE)
 

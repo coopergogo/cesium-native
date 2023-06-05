@@ -45,8 +45,13 @@ target_include_directories(
 target_link_libraries_system(
     CesiumUtility
     PUBLIC
-        glm
         uriparser
+)
+
+target_include_directories_system(
+    CesiumUtility
+    PUBLIC
+        glm
 )
 
 target_link_libraries(CesiumUtility
