@@ -29,7 +29,8 @@ target_sources(
 target_include_directories(
     sqlite3
     SYSTEM PUBLIC
-        ${CMAKE_CURRENT_BINARY_DIR}/sqlite3
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/sqlite3>
+    $<INSTALL_INTERFACE:include>
 )
 
 install(TARGETS sqlite3

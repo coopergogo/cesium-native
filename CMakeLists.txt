@@ -180,24 +180,24 @@ install(DIRECTORY extern/glm/glm
     COMPONENT GLM
 )
 
-install(TARGETS tinyxml2)
+install(TARGETS tinyxml2 EXPORT CesiumExtern)
 
 install(TARGETS Async++)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/extern/asyncplusplus/include/async++.h TYPE INCLUDE)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/asyncplusplus/include/async++ TYPE INCLUDE)
 
-install(TARGETS spdlog)
+install(TARGETS spdlog EXPORT CesiumExtern)
 install(DIRECTORY ${CESIUM_NATIVE_SPDLOG_INCLUDE_DIR}/spdlog DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
-install(TARGETS ${CESIUM_NATIVE_DRACO_LIBRARY})
+install(TARGETS ${CESIUM_NATIVE_DRACO_LIBRARY} EXPORT CesiumExtern)
 
-install(TARGETS sqlite3)
+install(TARGETS sqlite3 EXPORT CesiumExtern)
 
-install(TARGETS modp_b64)
+install(TARGETS modp_b64 EXPORT CesiumExtern)
 
 install(TARGETS httplib)
 
-install(TARGETS csprng)
+install(TARGETS csprng EXPORT CesiumExtern)
 
 install(TARGETS GSL)
 if(NOT ${GSL_INSTALL})
@@ -208,17 +208,28 @@ endif()
 # We could fix that, but we don't need the KTX public headers installed anyway (they should be considered
 # private to cesium-native), so just set the PUBLIC_HEADER to an empty string.
 set_target_properties(ktx_read PROPERTIES PUBLIC_HEADER "")
-install(TARGETS ktx_read)
+install(TARGETS ktx_read EXPORT CesiumExtern)
 
 install(TARGETS webpdecoder)
 
 install(DIRECTORY $<TARGET_LINKER_FILE:turbojpeg> TYPE LIB)
 
-install(TARGETS zlibstatic)
+install(TARGETS zlibstatic EXPORT CesiumExtern)
 
 install(DIRECTORY ${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}/rapidjson TYPE INCLUDE)
 
-install(TARGETS s2geometry)
+install(TARGETS s2geometry EXPORT CesiumExtern)
 
 install(TARGETS expected-lite)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/expected-lite/include/nonstd TYPE INCLUDE)
+
+install(EXPORT CesiumExports
+  FILE cesium-nativeTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cesium-native)
+
+install(EXPORT CesiumExtern
+  FILE cesium-native-externTargets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cesium-native)
+
+install(FILES cesium-nativeConfig.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cesium-native)

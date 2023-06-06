@@ -35,8 +35,8 @@ target_include_directories(
         ${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}
         ${CESIUM_NATIVE_DRACO_INCLUDE_DIR}
         ${CESIUM_NATIVE_LIBMORTON_INCUDE_DIR}
-        ${CMAKE_BINARY_DIR}
-        ${CMAKE_CURRENT_LIST_DIR}/include
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
 )
