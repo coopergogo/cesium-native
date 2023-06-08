@@ -35,6 +35,8 @@ option(URIPARSER_ENABLE_INSTALL "" on)
 option(URIPARSER_BUILD_TOOLS "" off)
 add_subdirectory(uriparser)
 
+make_interface_directories_system(uriparser)
+
 if ((NOT TARGET draco) AND (NOT TARGET draco_static))
     add_subdirectory(draco)
     if (MSVC)
@@ -49,6 +51,7 @@ set(CESIUM_NATIVE_DRACO_LIBRARY ${CESIUM_NATIVE_DRACO_LIBRARY} PARENT_SCOPE)
 if (NOT TARGET glm)
     add_subdirectory(glm GLM)
 endif()
+make_interface_directories_system(glm)
 
 # tinyxml2's CMake build tries to generate a pkg-config file in a way that's incompatible with multi-config generators
 # (e.g., Visual Studio). And anyway it's trivial to build manually, so we do that here.
@@ -63,6 +66,7 @@ add_subdirectory(asyncplusplus)
 
 set(SPDLOG_BUILD_TESTING OFF CACHE INTERNAL "Disable SPDLOG Testing")
 add_subdirectory(spdlog)
+make_interface_directories_system(spdlog)
 
 if (NOT TARGET sqlite3)
   add_subdirectory(sqlite3)
@@ -107,6 +111,7 @@ set(HTTPLIB_USE_BROTLI_IF_AVAILABLE OFF CACHE BOOL "Don't use Brotli")
 set(HTTPLIB_USE_ZLIB_IF_AVAILABLE OFF CACHE BOOL "Don't use Zlib")
 set(HTTPLIB_USE_OPENSSL_IF_AVAILABLE OFF CACHE BOOL "Don't use OpenSSL")
 add_subdirectory(cpp-httplib)
+make_interface_directories_system(httplib)
 
 # CSPRNG's CMake setup is old school, and it really only has one source
 # file, so set up a library manually here.

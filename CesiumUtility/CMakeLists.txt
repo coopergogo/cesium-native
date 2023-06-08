@@ -39,24 +39,11 @@ target_include_directories(
         ${CMAKE_CURRENT_BINARY_DIR}/../extern/zlib
 )
 
-# GLM erroneously does not declare its include a `SYSTEM` include, so
-# we must extract its include_directories using this function and manually
-# reinclude it as 'SYSTEM'.
-target_link_libraries_system(
-    CesiumUtility
-    PUBLIC
-        uriparser
-)
-
-target_include_directories_system(
-    CesiumUtility
-    PUBLIC
-        glm
-)
-
 target_link_libraries(CesiumUtility
     PUBLIC
+    	glm
         GSL
+        uriparser
         zlibstatic
 )
 

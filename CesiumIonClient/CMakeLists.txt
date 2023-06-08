@@ -40,16 +40,9 @@ target_link_libraries(CesiumIonClient
         CesiumUtility
     PRIVATE
         csprng
+        httplib::httplib
         modp_b64
         PicoSHA2
-)
-
-# httplib erroneously does not declare its include a `SYSTEM` include, so
-# we must extract its include_directories using this function and manually
-# reinclude it as 'SYSTEM'.
-target_link_libraries_system(CesiumIonClient
-    PRIVATE
-        httplib::httplib
 )
 
 install(TARGETS CesiumIonClient

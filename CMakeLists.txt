@@ -61,33 +61,13 @@ function(cesium_glob_files out_var_name regexes)
     set(${ARGV0} "${files}" PARENT_SCOPE)
 endfunction()
 
-# Workaround for targets that erroneously forget to
-# declare their include directories as `SYSTEM`
-function(target_link_libraries_system target scope)
-  set(libs ${ARGN})
-  foreach(lib ${libs})
-    get_target_property(lib_include_dirs ${lib} INTERFACE_INCLUDE_DIRECTORIES)
+# Alter a target to mark its interface include directories as `SYSTEM`.
 
-    if ("${lib_include_dirs}" MATCHES ".*NOTFOUND$")
-        message(FATAL_ERROR "${target}: Cannot use INTERFACE_INCLUDE_DIRECTORIES from target ${lib} as it does not define it")
-    endif()
-
-    target_include_directories(${target} SYSTEM ${scope} ${lib_include_dirs})
-    target_link_libraries(${target} ${scope} ${lib})
-  endforeach()
-endfunction()
-
-function(target_include_directories_system target scope)
-  set(libs ${ARGN})
-  foreach(lib ${libs})
-    get_target_property(lib_include_dirs ${lib} INTERFACE_INCLUDE_DIRECTORIES)
-
-    if ("${lib_include_dirs}" MATCHES ".*NOTFOUND$")
-        message(FATAL_ERROR "${target}: Cannot use INTERFACE_INCLUDE_DIRECTORIES from target ${lib} as it does not define it")
-    endif()
-
-    target_include_directories(${target} SYSTEM ${scope} ${lib_include_dirs})
-  endforeach()
+function(make_interface_directories_system target)
+  get_target_property(interface_directories ${target} INTERFACE_INCLUDE_DIRECTORIES)
+  set_target_properties(${target}
+    PROPERTIES
+    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${interface_directories}")
 endfunction()
 
 # Shared object support is currently NOT working on Windows
