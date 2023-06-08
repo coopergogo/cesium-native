@@ -69,7 +69,10 @@ make_interface_directories_system(glm)
 
 # tinyxml2's CMake build tries to generate a pkg-config file in a way that's incompatible with multi-config generators
 # (e.g., Visual Studio). And anyway it's trivial to build manually, so we do that here.
-add_library(tinyxml2 tinyxml2/tinyxml2.cpp)
+add_library(tinyxml2 tinyxml2/tinyxml2.cpp tinyxml2/tinyxml2.h)
+set_target_properties(tinyxml2
+  PROPERTIES
+  PUBLIC_HEADER ${CMAKE_CURRENT_LIST_DIR}/tinyxml2/tinyxml2.h)
 target_include_directories(
     tinyxml2
     PUBLIC
