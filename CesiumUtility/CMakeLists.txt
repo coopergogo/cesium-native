@@ -32,7 +32,7 @@ target_include_directories(
     SYSTEM PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
         $<BUILD_INTERFACE:${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}>
-        $INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/../extern/zlib
