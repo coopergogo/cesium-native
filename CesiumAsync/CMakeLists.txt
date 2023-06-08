@@ -24,15 +24,15 @@ target_sources(
     PRIVATE
         ${CESIUM_ASYNC_SOURCES}
         ${CESIUM_ASYNC_HEADERS}
-    PUBLIC
         ${CESIUM_ASYNC_PUBLIC_HEADERS}
 )
 
 target_include_directories(
     CesiumAsync
     SYSTEM PUBLIC
-        ${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}
-        ${CMAKE_CURRENT_LIST_DIR}/include
+        $<BUILD_INTERFACE:${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src/
 )

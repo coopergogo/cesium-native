@@ -37,15 +37,15 @@ target_sources(
     PRIVATE
         ${CESIUM_3DTILES_READER_SOURCES}
         ${CESIUM_3DTILES_READER_HEADERS}
-    PUBLIC
         ${CESIUM_3DTILES_READER_PUBLIC_HEADERS}
 )
 
 target_include_directories(
     Cesium3DTilesReader
     SYSTEM PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-        ${CMAKE_CURRENT_LIST_DIR}/generated/include
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/generated/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/generated/src

@@ -125,14 +125,14 @@ set(CSPRNG_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/CSPRNG/source/duthomhas/csprng.h 
 
 # PicoSHA2 doesn't have CMakeLists.txt at all
 add_library(PicoSHA2 INTERFACE)
-target_include_directories(PicoSHA2 SYSTEM INTERFACE PicoSHA2)
+target_include_directories(PicoSHA2 SYSTEM INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/PicoSHA2>)
 set_target_properties(PicoSHA2 PROPERTIES PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/PicoSHA2/picosha2.h")
 install(TARGETS PicoSHA2 EXPORT CesiumExtern)
 
 # Earcut has an old school CMake setup as well with lots of global settings, and it's header only anyway.
 # So define a simple library for it here.
 add_library(earcut INTERFACE)
-target_include_directories(earcut SYSTEM INTERFACE earcut/include)
+target_include_directories(earcut SYSTEM INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/earcut/include>)
 set_target_properties(earcut PROPERTIES PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/earcut/include/mapbox/earcut.hpp")
 
 install(TARGETS earcut EXPORT CesiumExtern)

@@ -36,7 +36,6 @@ target_sources(
     PRIVATE
         ${CESIUM_GLTF_WRITER_SOURCES}
         ${CESIUM_GLTF_WRITER_HEADERS}
-    PUBLIC
         ${CESIUM_GLTF_WRITER_PUBLIC_HEADERS}
 )
 
@@ -49,8 +48,9 @@ target_compile_definitions(
 target_include_directories(
     CesiumGltfWriter
     SYSTEM PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-        ${CMAKE_CURRENT_LIST_DIR}/generated/include
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/generated/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CESIUM_NATIVE_STB_INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/src
