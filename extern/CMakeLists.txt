@@ -1,5 +1,16 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/Catch2/contrib")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} PARENT_SCOPE)
+
+function(add_build_generator_expressions target)
+  get_target_property(interface_directories ${target} INTERFACE_INCLUDE_DIRECTORIES)
+  foreach(dir IN LISTS interface_directories)
+    list(APPEND new_dirs "$<BUILD_INTERFACE:${dir}>")
+  endforeach()
+  set_target_properties(${target}
+    PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${new_dirs}")
+endfunction()
+
 add_subdirectory(Catch2)
 
 add_subdirectory(GSL)
@@ -51,6 +62,7 @@ set(CESIUM_NATIVE_DRACO_LIBRARY ${CESIUM_NATIVE_DRACO_LIBRARY} PARENT_SCOPE)
 if (NOT TARGET glm)
     add_subdirectory(glm GLM)
 endif()
+add_build_generator_expressions(glm)
 get_target_property(glm_interface_dirs glm INTERFACE_INCLUDE_DIRECTORIES)  
 message("GLM interface include directories: ${glm_interface_dirs}")
 make_interface_directories_system(glm)
@@ -61,7 +73,8 @@ add_library(tinyxml2 tinyxml2/tinyxml2.cpp)
 target_include_directories(
     tinyxml2
     PUBLIC
-        tinyxml2
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/tinyxml2>
+        $<INSTALL_INTERFACE:include>
 )
 
 add_subdirectory(asyncplusplus)
@@ -75,6 +88,7 @@ if (NOT TARGET sqlite3)
 endif()
 
 add_subdirectory(modp_b64)
+add_build_generator_expressions(modp_b64)
 
 add_subdirectory(expected-lite)
 
@@ -103,7 +117,10 @@ set_target_properties(s2geometry PROPERTIES
   CXX_STANDARD 11
   CXX_STANDARD_REQUIRED YES
 )
-target_include_directories(s2geometry SYSTEM PUBLIC s2geometry/src)
+target_include_directories(s2geometry
+    SYSTEM PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/s2geometry/src>
+)
 if (MSVC)
   target_compile_options(s2geometry PRIVATE "/J" "/wd4127" "/wd4996")
   target_compile_definitions(s2geometry PRIVATE NOMINMAX _USE_MATH_DEFINES)
@@ -121,7 +138,7 @@ add_library(csprng CSPRNG/source/csprng.cpp)
 target_include_directories(
     csprng
     PUBLIC
-        CSPRNG/source
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/CSPRNG/source>
 )
 set(CSPRNG_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/CSPRNG/source/duthomhas/csprng.h ${CMAKE_CURRENT_SOURCE_DIR}/CSPRNG/source/duthomhas/csprng.hpp ${CMAKE_CURRENT_SOURCE_DIR}/CSPRNG/source/duthomhas/is_iterable.hpp)
 
