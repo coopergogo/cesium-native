@@ -159,6 +159,7 @@ install(DIRECTORY extern/glm/glm
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     COMPONENT GLM
 )
+install(TARGETS glm EXPORT CesiumExtern)
 
 install(TARGETS tinyxml2 EXPORT CesiumExtern)
 
