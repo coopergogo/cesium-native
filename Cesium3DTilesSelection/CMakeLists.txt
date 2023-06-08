@@ -32,12 +32,13 @@ target_include_directories(
     Cesium3DTilesSelection
     SYSTEM PUBLIC
         $<BUILD_INTERFACE:${CESIUM_NATIVE_RAPIDJSON_INCLUDE_DIR}>
-        $<BUILD_INTERFACE:${CESIUM_NATIVE_DRACO_INCLUDE_DIR}>
         $<BUILD_INTERFACE:${CESIUM_NATIVE_LIBMORTON_INCUDE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CESIUM_NATIVE_DRACO_FEATURES_DIR}
+        ${CESIUM_NATIVE_DRACO_INCLUDE_DIR}
 )
 
 target_link_libraries(Cesium3DTilesSelection

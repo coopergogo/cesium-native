@@ -173,6 +173,10 @@ set(CESIUM_NATIVE_RAPIDJSON_DEFINES
     "Compiler definitions for rapidjson"
 )
 
+set(CESIUM_NATIVE_DRACO_FEATURES_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL
+    "Include directory for Draco"
+)
+
 set(CESIUM_NATIVE_DRACO_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/draco/src/" CACHE INTERNAL
     "Include directory for Draco"
 )

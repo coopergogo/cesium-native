@@ -43,8 +43,6 @@ target_sources(
 target_include_directories(
     CesiumGltfReader
     SYSTEM PUBLIC
-        # Necessary for `draco/draco_features.h`
-        $<BUILD_INTERFACE:${CESIUM_NATIVE_DRACO_INCLUDE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/generated/include>
         $<INSTALL_INTERFACE:include>
@@ -52,6 +50,10 @@ target_include_directories(
         ${CESIUM_NATIVE_STB_INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/generated/src
+        # Necessary for `draco/draco_features.h`
+        ${CESIUM_NATIVE_DRACO_FEATURES_DIR}
+        ${CESIUM_NATIVE_DRACO_INCLUDE_DIR}
+
 )
 
 target_link_libraries(CesiumGltfReader
