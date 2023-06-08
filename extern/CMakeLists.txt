@@ -51,6 +51,8 @@ set(CESIUM_NATIVE_DRACO_LIBRARY ${CESIUM_NATIVE_DRACO_LIBRARY} PARENT_SCOPE)
 if (NOT TARGET glm)
     add_subdirectory(glm GLM)
 endif()
+get_target_property(glm_interface_dirs glm INTERFACE_INCLUDE_DIRECTORIES)  
+message("GLM interface include directories: ${glm_interface_dirs}")
 make_interface_directories_system(glm)
 
 # tinyxml2's CMake build tries to generate a pkg-config file in a way that's incompatible with multi-config generators
