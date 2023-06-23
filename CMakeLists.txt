@@ -118,7 +118,6 @@ function(configure_cesium_library targetName)
 
 endfunction()
 
-
 # Private Libraries
 add_subdirectory(extern EXCLUDE_FROM_ALL)
 
@@ -180,10 +179,8 @@ install(TARGETS httplib)
 
 install(TARGETS csprng EXPORT CesiumExtern)
 
-install(TARGETS GSL)
-if(NOT ${GSL_INSTALL})
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/GSL/include/gsl TYPE INCLUDE)
-endif()
+install(TARGETS GSL EXPORT CesiumExtern)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/GSL/include/gsl TYPE INCLUDE)
 
 # ktx_read's PUBLIC_HEADER has paths relative to its own directory, so the install line below will fail.
 # We could fix that, but we don't need the KTX public headers installed anyway (they should be considered
