@@ -78,6 +78,7 @@ function(configure_cesium_library targetName)
         target_compile_options(${targetName} PRIVATE /W4 /WX /wd4201 /bigobj)
     else()
         target_compile_options(${targetName} PRIVATE -Werror -Wall -Wextra -Wconversion -Wpedantic -Wshadow -Wsign-conversion)
+        target_compile_options(${targetName} PRIVATE -Wno-dangling-reference)
     endif()
 
     set_target_properties(${targetName} PROPERTIES
