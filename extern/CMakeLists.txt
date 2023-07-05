@@ -13,7 +13,7 @@ endfunction()
 
 add_subdirectory(Catch2)
 
-add_subdirectory(GSL)
+add_subdirectory(GSL EXCLUDE_FROM_ALL)
 
 option(KTX_FEATURE_STATIC_LIBRARY "" on)
 option(KTX_FEATURE_TESTS "" off)
@@ -24,7 +24,7 @@ if(IOS)
   set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "12.0" CACHE STRING "iOS Deployment Target")
 endif()
 
-add_subdirectory(KTX-Software)
+add_subdirectory(KTX-Software EXCLUDE_FROM_ALL)
 
 option(WEBP_BUILD_ANIM_UTILS "" off)
 option(WEBP_BUILD_CWEBP "" off)
@@ -38,13 +38,13 @@ option(WEBP_BUILD_WEBPINFO "" off)
 option(WEBP_BUILD_WEBPMUX "" off)
 option(WEBP_NEAR_LOSSLESS "" off)
 option(WEBP_UNICODE "" off)
-add_subdirectory(libwebp)
+add_subdirectory(libwebp EXCLUDE_FROM_ALL)
 
 option(URIPARSER_BUILD_TESTS "" off)
 option(URIPARSER_BUILD_DOCS "" off)
 option(URIPARSER_ENABLE_INSTALL "" on)
 option(URIPARSER_BUILD_TOOLS "" off)
-add_subdirectory(uriparser)
+add_subdirectory(uriparser EXCLUDE_FROM_ALL)
 
 make_interface_directories_system(uriparser)
 
@@ -60,7 +60,7 @@ endif()
 set(CESIUM_NATIVE_DRACO_LIBRARY ${CESIUM_NATIVE_DRACO_LIBRARY} PARENT_SCOPE)
 
 if (NOT TARGET glm)
-    add_subdirectory(glm GLM)
+    add_subdirectory(glm GLM EXCLUDE_FROM_ALL)
 endif()
 add_build_generator_expressions(glm)
 get_target_property(glm_interface_dirs glm INTERFACE_INCLUDE_DIRECTORIES)  
@@ -80,20 +80,20 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>
 )
 
-add_subdirectory(asyncplusplus)
+add_subdirectory(asyncplusplus EXCLUDE_FROM_ALL)
 
 set(SPDLOG_BUILD_TESTING OFF CACHE INTERNAL "Disable SPDLOG Testing")
-add_subdirectory(spdlog)
+add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 make_interface_directories_system(spdlog)
 
 if (NOT TARGET sqlite3)
-  add_subdirectory(sqlite3)
+  add_subdirectory(sqlite3 EXCLUDE_FROM_ALL)
 endif()
 
-add_subdirectory(modp_b64)
+add_subdirectory(modp_b64 EXCLUDE_FROM_ALL)
 add_build_generator_expressions(modp_b64)
 
-add_subdirectory(expected-lite)
+add_subdirectory(expected-lite EXCLUDE_FROM_ALL)
 
 # s2geometry's CMake requires OpenSSL, even though it's not needed for any of
 # the functionality we actually use. So a simple library with enough functionality
@@ -132,7 +132,7 @@ endif()
 set(HTTPLIB_USE_BROTLI_IF_AVAILABLE OFF CACHE BOOL "Don't use Brotli")
 set(HTTPLIB_USE_ZLIB_IF_AVAILABLE OFF CACHE BOOL "Don't use Zlib")
 set(HTTPLIB_USE_OPENSSL_IF_AVAILABLE OFF CACHE BOOL "Don't use OpenSSL")
-add_subdirectory(cpp-httplib)
+add_subdirectory(cpp-httplib EXCLUDE_FROM_ALL)
 make_interface_directories_system(httplib)
 
 # CSPRNG's CMake setup is old school, and it really only has one source
@@ -192,7 +192,7 @@ set(CESIUM_NATIVE_LIBMORTON_INCUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libmorton/incl
 set(BUILD_TESTING OFF CACHE INTERNAL "Disable libmorton Testing")
 add_subdirectory(libmorton)
 
-add_subdirectory(zlib)
+add_subdirectory(zlib EXCLUDE_FROM_ALL)
 
 if(DEFINED CMAKE_TOOLCHAIN_FILE)
     if(NOT IS_ABSOLUTE ${CMAKE_TOOLCHAIN_FILE})

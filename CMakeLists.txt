@@ -121,7 +121,7 @@ endfunction()
 
 
 # Private Libraries
-add_subdirectory(extern EXCLUDE_FROM_ALL)
+add_subdirectory(extern)
 
 # These libraries override the debug postfix, so re-override it.
 set_target_properties(spdlog PROPERTIES DEBUG_POSTFIX ${CESIUM_DEBUG_POSTFIX})
@@ -170,8 +170,6 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/asyncplusplus/include/async
 
 install(TARGETS spdlog EXPORT CesiumExtern)
 install(DIRECTORY ${CESIUM_NATIVE_SPDLOG_INCLUDE_DIR}/spdlog DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-
-install(TARGETS ${CESIUM_NATIVE_DRACO_LIBRARY} EXPORT CesiumExtern)
 
 install(TARGETS sqlite3 EXPORT CesiumExtern)
 
