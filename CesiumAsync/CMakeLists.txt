@@ -41,10 +41,14 @@ target_link_libraries(CesiumAsync
     PUBLIC
         CesiumUtility
         GSL
-        Async++
-        spdlog
     PRIVATE
         sqlite3
+)
+
+# These libraries erroneously do NOT list their headers as `SYSTEM` headers
+target_link_libraries_system(CesiumAsync PUBLIC
+    spdlog
+    Async++
 )
 
 install(TARGETS CesiumAsync

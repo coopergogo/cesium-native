@@ -39,11 +39,14 @@ target_link_libraries(CesiumIonClient
         CesiumAsync
         CesiumUtility
     PRIVATE
-        csprng
         httplib::httplib
         modp_b64
         PicoSHA2
 )
+
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "WindowsStore")
+  target_link_libraries(CesiumIonClient PRIVATE csprng)
+endif()
 
 install(TARGETS CesiumIonClient
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

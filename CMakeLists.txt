@@ -10,6 +10,7 @@ option(PRIVATE_CESIUM_SQLITE "ON to rename SQLite symbols to cesium_sqlite3_* so
 option(CESIUM_TRACING_ENABLED "Whether to enable the Cesium performance tracing framework (CESIUM_TRACE_* macros)." OFF)
 option(CESIUM_COVERAGE_ENABLED "Whether to enable code coverage" OFF)
 option(CESIUM_TESTS_ENABLED "Whether to enable tests" ON)
+option(CESIUM_GLM_STRICT_ENABLED "Whether to force strict GLM compile definitions." ON)
 
 if (CESIUM_TRACING_ENABLED)
     add_compile_definitions(CESIUM_TRACING_ENABLED=1)
@@ -87,13 +88,15 @@ function(configure_cesium_library targetName)
         CXX_EXTENSIONS NO
     )
 
-    target_compile_definitions(
-        ${targetName}
-        PUBLIC
-            GLM_FORCE_XYZW_ONLY # Disable .rgba and .stpq to make it easier to view values from debugger
-            GLM_FORCE_EXPLICIT_CTOR # Disallow implicit conversions between dvec3 <-> dvec4, dvec3 <-> fvec3, etc
-            GLM_FORCE_SIZE_T_LENGTH # Make vec.length() and vec[idx] use size_t instead of int
-    )
+    if (CESIUM_GLM_STRICT_ENABLED)
+        target_compile_definitions(
+            ${targetName}
+            PUBLIC
+                GLM_FORCE_XYZW_ONLY # Disable .rgba and .stpq to make it easier to view values from debugger
+                GLM_FORCE_EXPLICIT_CTOR # Disallow implicit conversions between dvec3 <-> dvec4, dvec3 <-> fvec3, etc
+                GLM_FORCE_SIZE_T_LENGTH # Make vec.length() and vec[idx] use size_t instead of int
+        )
+    endif()
 
     if (BUILD_SHARED_LIBS)
         target_compile_definitions(
@@ -154,7 +157,7 @@ endif()
 add_subdirectory(doc)
 
 # Installation of third-party libraries required to use cesium-native
-install(TARGETS uriparser OPTIONAL) # Skips headers
+install(TARGETS uriparser OPTIONAL PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/uriparser")
 
 install(DIRECTORY extern/glm/glm
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -177,7 +180,10 @@ install(TARGETS modp_b64 EXPORT CesiumExtern)
 
 install(TARGETS httplib)
 
-install(TARGETS csprng EXPORT CesiumExtern)
+# Don't install CSPRNG when building for Universal Windows Platform
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "WindowsStore")
+  install(TARGETS csprng EXPORT CesiumExtern)
+endif()
 
 install(TARGETS GSL)
 if(NOT ${GSL_INSTALL})
@@ -202,6 +208,8 @@ install(TARGETS s2geometry EXPORT CesiumExtern)
 
 install(TARGETS expected-lite)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/expected-lite/include/nonstd TYPE INCLUDE)
+
+install(TARGETS meshoptimizer CesiumExtern)
 
 install(EXPORT CesiumExports
   FILE cesium-nativeTargets.cmake

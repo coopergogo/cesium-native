@@ -35,8 +35,8 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
-        ${CMAKE_CURRENT_LIST_DIR}/../extern/zlib
         ${CMAKE_CURRENT_BINARY_DIR}/../extern/zlib
+        ${CMAKE_CURRENT_BINARY_DIR}/../extern/zlib-src
 )
 
 target_link_libraries(CesiumUtility

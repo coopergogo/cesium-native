@@ -68,6 +68,7 @@ target_link_libraries(CesiumGltfReader
         webp
         webpdecoder
         turbojpeg
+        meshoptimizer
 )
 
 install(TARGETS CesiumGltfReader
