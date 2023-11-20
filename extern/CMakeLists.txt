@@ -85,6 +85,7 @@ target_include_directories(
 )
 
 add_subdirectory(asyncplusplus EXCLUDE_FROM_ALL)
+make_interface_directories_system(Async++)
 
 set(SPDLOG_BUILD_TESTING OFF CACHE INTERNAL "Disable SPDLOG Testing")
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)

@@ -157,7 +157,7 @@ endif()
 add_subdirectory(doc)
 
 # Installation of third-party libraries required to use cesium-native
-install(TARGETS uriparser OPTIONAL PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/uriparser")
+install(TARGETS uriparser EXPORT CesiumExtern)
 
 install(DIRECTORY extern/glm/glm
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -209,7 +209,7 @@ install(TARGETS s2geometry EXPORT CesiumExtern)
 install(TARGETS expected-lite)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/expected-lite/include/nonstd TYPE INCLUDE)
 
-install(TARGETS meshoptimizer CesiumExtern)
+install(TARGETS meshoptimizer)
 
 install(EXPORT CesiumExports
   FILE cesium-nativeTargets.cmake
