@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gsl/span>
+#include <cstdint>
 
 namespace CesiumIonClient {
 
