@@ -51,7 +51,7 @@ target_link_libraries(Cesium3DTilesSelection
         CesiumGltf
         CesiumGltfReader
         CesiumUtility
-        spdlog
+        ${CESIUM_SPDLOG_TARGET}
     # PRIVATE
         tinyxml2
         uriparser

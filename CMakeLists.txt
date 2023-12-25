@@ -11,9 +11,14 @@ option(CESIUM_TRACING_ENABLED "Whether to enable the Cesium performance tracing 
 option(CESIUM_COVERAGE_ENABLED "Whether to enable code coverage" OFF)
 option(CESIUM_TESTS_ENABLED "Whether to enable tests" ON)
 option(CESIUM_GLM_STRICT_ENABLED "Whether to force strict GLM compile definitions." ON)
+option(CESIUM_SPDLOG_HEADER_ONLY "Whether to use the header-only version of spdlog." OFF)
 
 if (CESIUM_TRACING_ENABLED)
     add_compile_definitions(CESIUM_TRACING_ENABLED=1)
+endif()
+
+if (CESIUM_SPDLOG_HEADER_ONLY)
+  add_compile_definitions(NOGDI)
 endif()
 
 # Add Modules
@@ -130,6 +135,15 @@ add_subdirectory(extern)
 set_target_properties(spdlog PROPERTIES DEBUG_POSTFIX ${CESIUM_DEBUG_POSTFIX})
 set_target_properties(tinyxml2 PROPERTIES DEBUG_POSTFIX ${CESIUM_DEBUG_POSTFIX})
 
+if(CESIUM_SPDLOG_HEADER_ONLY)
+  install(TARGETS spdlog_header_only EXPORT CesiumExtern)
+  set(CESIUM_SPDLOG_TARGET spdlog::spdlog_header_only)
+else()
+  # XXX Not correct yet; should install spdlog target for realz
+  install(DIRECTORY ${CESIUM_NATIVE_SPDLOG_INCLUDE_DIR}/spdlog DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(CESIUM_SPDLOG_TARGET spdlog)
+endif()
+
 # Public Targets
 add_subdirectory(CesiumUtility)
 add_subdirectory(CesiumGltf)
@@ -170,9 +184,6 @@ install(TARGETS tinyxml2 EXPORT CesiumExtern)
 install(TARGETS Async++)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/extern/asyncplusplus/include/async++.h TYPE INCLUDE)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/asyncplusplus/include/async++ TYPE INCLUDE)
-
-install(TARGETS spdlog EXPORT CesiumExtern)
-install(DIRECTORY ${CESIUM_NATIVE_SPDLOG_INCLUDE_DIR}/spdlog DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 install(TARGETS sqlite3 EXPORT CesiumExtern)
 

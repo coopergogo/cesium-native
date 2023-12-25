@@ -42,7 +42,7 @@ target_link_libraries(CesiumAsync
         CesiumUtility
         GSL
         Async++
-        spdlog
+        ${CESIUM_SPDLOG_TARGET}
     PRIVATE
         sqlite3
 )
