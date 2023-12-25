@@ -139,8 +139,7 @@ if(CESIUM_SPDLOG_HEADER_ONLY)
   install(TARGETS spdlog_header_only EXPORT CesiumExtern)
   set(CESIUM_SPDLOG_TARGET spdlog::spdlog_header_only)
 else()
-  # XXX Not correct yet; should install spdlog target for realz
-  install(DIRECTORY ${CESIUM_NATIVE_SPDLOG_INCLUDE_DIR}/spdlog DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+  install(TARGETS spdlog EXPORT CesiumExtern)
   set(CESIUM_SPDLOG_TARGET spdlog)
 endif()
 
