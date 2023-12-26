@@ -83,12 +83,14 @@ target_include_directories(
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/tinyxml2>
         $<INSTALL_INTERFACE:include>
 )
+make_interface_directories_system(tinyxml2)
 
 add_subdirectory(asyncplusplus EXCLUDE_FROM_ALL)
 make_interface_directories_system(Async++)
 
 set(SPDLOG_BUILD_TESTING OFF CACHE INTERNAL "Disable SPDLOG Testing")
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
+target_compile_definitions(spdlog PUBLIC _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
 make_interface_directories_system(spdlog)
 
 if (NOT TARGET sqlite3)
@@ -99,6 +101,7 @@ add_subdirectory(modp_b64 EXCLUDE_FROM_ALL)
 add_build_generator_expressions(modp_b64)
 
 add_subdirectory(expected-lite EXCLUDE_FROM_ALL)
+make_interface_directories_system(expected-lite)
 
 # s2geometry's CMake requires OpenSSL, even though it's not needed for any of
 # the functionality we actually use. So a simple library with enough functionality
@@ -198,6 +201,7 @@ set(CESIUM_NATIVE_LIBMORTON_INCUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libmorton/incl
 
 set(BUILD_TESTING OFF CACHE INTERNAL "Disable libmorton Testing")
 add_subdirectory(libmorton)
+make_interface_directories_system(libmorton)
 
 # The zlib cmake build makes its working directory dirty.
 # So we make a copy of it to avoid that annoyance.

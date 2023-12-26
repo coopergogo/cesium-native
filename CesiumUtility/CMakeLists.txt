@@ -44,6 +44,7 @@ target_link_libraries(CesiumUtility
     	glm
         GSL
         uriparser
+        spdlog
         zlibstatic
 )
 
