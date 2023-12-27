@@ -206,6 +206,8 @@ make_interface_directories_system(libmorton)
 # The zlib cmake build makes its working directory dirty.
 # So we make a copy of it to avoid that annoyance.
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/zlib/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/zlib-src")
+# zlib sets its library install directory to "lib", which doesn't work on platforms that use lib64 instead.
+set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}" CACHE INTERNAL "override zlib's library install" )
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/zlib-src ${CMAKE_CURRENT_BINARY_DIR}/zlib)
 
 if(DEFINED CMAKE_TOOLCHAIN_FILE)
