@@ -25,14 +25,14 @@ target_sources(
     PRIVATE
         ${CESIUM_RASTER_OVERLAYS_SOURCES}
         ${CESIUM_RASTER_OVERLAYS_HEADERS}
-    PUBLIC
         ${CESIUM_RASTER_OVERLAYS_PUBLIC_HEADERS}
 )
 
 target_include_directories(
   CesiumRasterOverlays
     SYSTEM PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/src
 )
