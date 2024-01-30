@@ -198,7 +198,7 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "WindowsStore")
   install(TARGETS csprng EXPORT CesiumExtern)
 endif()
 
-install(TARGETS GSL)
+install(TARGETS GSL EXPORT CesiumExtern)
 if(NOT ${GSL_INSTALL})
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extern/GSL/include/gsl TYPE INCLUDE)
 endif()
