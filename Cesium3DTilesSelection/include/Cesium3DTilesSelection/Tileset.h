@@ -180,10 +180,13 @@ public:
   const ViewUpdateResult&
   updateView(const std::vector<ViewState>& frustums, float deltaTime = 0.0f);
 
+  int32_t getNumberOfTilesLoading() const;
   /**
    * @brief Gets the total number of tiles that are currently loaded.
    */
   int32_t getNumberOfTilesLoaded() const;
+
+  int32_t getTotalNumberOfTiles() const;
 
   /**
    * @brief Estimate the percentage of the tiles for the current view that have

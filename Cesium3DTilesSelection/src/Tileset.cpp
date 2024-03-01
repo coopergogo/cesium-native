@@ -419,8 +419,25 @@ Tileset::updateView(const std::vector<ViewState>& frustums, float deltaTime) {
 
   return result;
 }
+
+int32_t Tileset::getNumberOfTilesLoading() const {
+    return this->_pTilesetContentManager->getNumberOfTilesLoading();
+}
+
 int32_t Tileset::getNumberOfTilesLoaded() const {
   return this->_pTilesetContentManager->getNumberOfTilesLoaded();
+}
+
+int32_t Tileset::getTotalNumberOfTiles() const {
+    int32_t queueSizeSum = static_cast<int32_t>(
+            this->_workerThreadLoadQueue.size() + this->_mainThreadLoadQueue.size());
+    int32_t numOfTilesLoading =
+            this->_pTilesetContentManager->getNumberOfTilesLoading();
+    int32_t numOfTilesLoaded =
+            this->_pTilesetContentManager->getNumberOfTilesLoaded();
+    int32_t inProgressSum = numOfTilesLoading + queueSizeSum;
+    int32_t totalNum = numOfTilesLoaded + inProgressSum;
+    return totalNum;
 }
 
 float Tileset::computeLoadProgress() noexcept {
