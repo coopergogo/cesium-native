@@ -2445,7 +2445,7 @@ void writeJson(
     writeJson(obj.emissiveFactor, jsonWriter, context);
   }
 
-  if (obj.alphaMode != CesiumGltf::Material::AlphaMode::OPAQUE) {
+  if (obj.alphaMode != CesiumGltf::Material::AlphaMode::OPAQUE_) {
     jsonWriter.Key("alphaMode");
     writeJson(obj.alphaMode, jsonWriter, context);
   }
