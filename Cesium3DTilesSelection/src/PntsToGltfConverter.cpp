@@ -528,7 +528,7 @@ void parseSemanticsFromFeatureTableJson(
   if (rtcIt != featureTableJson.MemberEnd() &&
       validateJsonArrayValues(rtcIt->value, 3, isNumber)) {
     const rapidjson::Value& rtcValue = rtcIt->value;
-    parsedContent.rtcCenter = glm::vec3(
+    parsedContent.rtcCenter = glm::dvec3(
         rtcValue[0].GetDouble(),
         rtcValue[1].GetDouble(),
         rtcValue[2].GetDouble());
