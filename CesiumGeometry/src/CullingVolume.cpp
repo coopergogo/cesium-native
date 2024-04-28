@@ -4,6 +4,8 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 
+#include <CesiumUtility/Math.h>
+
 namespace Cesium3DTilesSelection {
 
 CullingVolume createCullingVolume(
@@ -12,9 +14,16 @@ CullingVolume createCullingVolume(
     const glm::dvec3& up,
     const double fovx,
     const double fovy) noexcept {
-  const double t = glm::tan(0.5 * fovy);
+  double fov = CesiumUtility::Math::degreesToRadians(60.0);
+  double fx = fovx, fy = fovy;
+  if (fovy < fov) {
+    fx = fov;
+    fy = fovy / fovx * fov;
+  }
+
+  const double t = glm::tan(0.5 * fy);
   const double b = -t;
-  const double r = glm::tan(0.5 * fovx);
+  const double r = glm::tan(0.5 * fx);
   const double l = -r;
 
   const double n = 1.0;
